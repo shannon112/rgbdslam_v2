@@ -1,4 +1,10 @@
 # RGBDSLAM<i>v2</i> for d435
+```
+roslaunch realsense2_camera rs_camera.launch align_depth:=true
+roslaunch rgbdslam rgbdslam.launch
+```
+
+# RGBDSLAM<i>v2</i>
 ... is a state-of-the-art SLAM system for RGB-D cameras, e.g., the Microsoft
 Kinect or the Asus Xtion Pro Live.  You can use it to create 3D point clouds or
 OctoMaps. 
