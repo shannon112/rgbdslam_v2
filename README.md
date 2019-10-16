@@ -35,10 +35,12 @@ Other versions may work, but are not tested. Please report success if you use ot
 # Installation ################################################################
 This is a canonical way, feel free to adapt if you known what you are doing.
 
-1. Put RGBDSLAMv2 in a catkin workspace src.
-2. Download my [g2o fork|https://github.com/felixendres/g2o], put it in some other directory. Build and install. Export the environment variable `$G2O_DIR` to the installation directory to let rgbdslam_v2 know where to find it (see Installation from Scratch for an example).
-3. Use rosdep (i.e. "rosdep install rgbdslam") to install missing dependencie.
-4. To build RGBDSLAMv2 go to your catkin workspace and execute "catkin_make". If you get an error about the missing siftgpu library, execute "catkin_make" again.
+1. **Clone** RGBDSLAMv2 in a catkin workspace src.
+2. Download **g2o** [g2o fork|https://github.com/felixendres/g2o], put it in some other directory. Build and install. Export the environment variable `$G2O_DIR` to the installation directory to let rgbdslam_v2 know where to find it (see Installation from Scratch for an example).
+3. Install **pcl1.8** instead of build-in pcl1.7, https://github.com/felixendres/rgbdslam_v2/wiki/Instructions-for-Compiling-Rgbdslam-(V2)-on-a-Fresh-Ubuntu-16.04-Install-(Ros-Kinetic)-in-Virtualbox
+3. Use **rosdep** (i.e. "rosdep install rgbdslam") to install missing dependencie.
+4. Install some other **dependences** ```sudo apt-get install libglew1.5-dev libdevil-dev libsuitesparse-dev```
+4. To build RGBDSLAMv2 go to your catkin workspace and execute "**catkin_make**". If you get an error about the missing siftgpu library, execute "catkin_make" again.
 
 
 ## Installation from Scratch  #####################################################
