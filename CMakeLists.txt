@@ -3,7 +3,7 @@ cmake_policy(SET CMP0003 NEW)
 #########################################################
 ### USER CONFIG #########################################
 #########################################################
-set(USE_SIFT_GPU  1 CACHE BOOL "build with support for siftgpu") 
+set(USE_SIFT_GPU  0 CACHE BOOL "build with support for siftgpu")
 if (${USE_SIFT_GPU})
   message(STATUS "SiftGPU library will be used")
 else (${USE_SIFT_GPU})
@@ -11,8 +11,8 @@ else (${USE_SIFT_GPU})
 endif (${USE_SIFT_GPU})
 
 #SIFT_GPU_MODE is now set via parameter server option "siftgpu_with_cuda"
-#set(ENV{SIFT_GPU_MODE}	2) #CUDA = 1, GLSL = 2 
-set(ENV{SIFT_GPU_CUDA_PATH}	/usr/local/cuda CACHE PATH "where cuda is installed")	
+#set(ENV{SIFT_GPU_MODE}	2) #CUDA = 1, GLSL = 2
+set(ENV{SIFT_GPU_CUDA_PATH}	/usr/local/cuda CACHE PATH "where cuda is installed")
 
 #These settings are unsupported legacy
 set(USE_GICP_BIN		0)
@@ -28,7 +28,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 #set the default path for built libraries to the "lib" directory
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #SET(CMAKE_CXX_FLAGS "-O3 -fPIC -std=c++0x")
-#For annotated profiling with perf: 
+#For annotated profiling with perf:
 #SET(CMAKE_CXX_FLAGS "-ggdb -O3 -fPIC -std=c++0x")
 #SET(CMAKE_CXX_FLAGS "-ggdb -O3 -fPIC")
 SET(CMAKE_BUILD_TYPE RELEASE)
@@ -36,7 +36,7 @@ add_compile_options(-std=c++11)
 IF (${USE_GL2PS})
   add_definitions(-DGL2PS)
 ENDIF (${USE_GL2PS})
-#is used for compiling the libraries 
+#is used for compiling the libraries
 set(USE_GICP 0)
 IF (${USE_GICP_BIN} OR ${USE_GICP_CODE})
 	set(USE_GICP 1)
@@ -61,13 +61,13 @@ project(rgbdslam)
 
 #add_definitions(-DROSCONSOLE_SEVERITY_INFO)
 
-add_service_files(DIRECTORY srv FILES rgbdslam_ros_ui.srv rgbdslam_ros_ui_b.srv rgbdslam_ros_ui_f.srv rgbdslam_ros_ui_s.srv) 
+add_service_files(DIRECTORY srv FILES rgbdslam_ros_ui.srv rgbdslam_ros_ui_b.srv rgbdslam_ros_ui_f.srv rgbdslam_ros_ui_s.srv)
 generate_messages()
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES my_pcl_tutorial
-  CATKIN_DEPENDS pcl_conversions pcl_ros roscpp sensor_msgs 
-  DEPENDS message_runtime std_msgs 
+  CATKIN_DEPENDS pcl_conversions pcl_ros roscpp sensor_msgs
+  DEPENDS message_runtime std_msgs
 )
 include_directories(SYSTEM ${catkin_INCLUDE_DIRS})
 link_directories(${catkin_LIBRARY_DIRS})
@@ -110,13 +110,13 @@ if (OPENMP_FOUND)
     set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
     set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 endif()
-# This is necessary as all ui files etc will get dumped in the bottom of then binary directory. 
+# This is necessary as all ui files etc will get dumped in the bottom of then binary directory.
 include_directories(SYSTEM ${CMAKE_CURRENT_BINARY_DIR} ${Qt5_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/external/gicp/ann_1.1.2/include/ANN)
 
 #get_directory_property(clean ADDITIONAL_MAKE_CLEAN_FILES)
 #SET(clean external/siftgpu/linux/bin/libsiftgpu.so)
 #set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${clean}")
- 	
+
 LINK_DIRECTORIES(${LIBRARY_OUTPUT_PATH})
 
 
@@ -125,9 +125,9 @@ SET(${CMAKE_LIBRARY_PATH} ${LIBRARY_OUTPUT_PATH})
 
 
 #Only possible when not subscribing to point cloud topic. Possibly dangerous anyway, but halves storage space per point cloud
-#ADD_DEFINITIONS(-DRGB_IS_4TH_DIM) 
+#ADD_DEFINITIONS(-DRGB_IS_4TH_DIM)
 #ADD_DEFINITIONS(-DDO_FEATURE_OPTIMIZATION)
-#ADD_DEFINITIONS(-DHEMACLOUDS) 
+#ADD_DEFINITIONS(-DHEMACLOUDS)
 ADD_DEFINITIONS(-DROSCONSOLE_MIN_SEVERITY=ROSCONSOLE_SEVERITY_INFO)
 
 #############################
@@ -136,8 +136,8 @@ ADD_DEFINITIONS(-DROSCONSOLE_MIN_SEVERITY=ROSCONSOLE_SEVERITY_INFO)
 IF (${USE_SIFT_GPU})
   add_subdirectory(external)
   include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/SiftGPU/src)
-  link_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/SiftGPU/bin)	
-	
+  link_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/SiftGPU/bin)
+
 	add_definitions(-DUSE_SIFT_GPU)
 ENDIF (${USE_SIFT_GPU})
 
@@ -157,12 +157,12 @@ IF (${USE_GICP})
 	    RESULT_VARIABLE gicp_return
     )
     MESSAGE("\n------------------------------------------------------------------\n")
-	
+
 	#on error
 	IF (NOT ${gicp_return} EQUAL 0)
 		MESSAGE(FATAL_ERROR "GICP cannot be compiled. Returned: ${gicp_return}")
 	ENDIF (NOT ${gicp_return} EQUAL 0)
-	
+
 	FILE(COPY ${gicp_build_path}/lib/libANN.a DESTINATION ${CMAKE_SOURCE_DIR}/lib/)
 ENDIF (${USE_GICP})
 
@@ -171,10 +171,10 @@ IF (${USE_GICP_BIN})
 ENDIF (${USE_GICP_BIN})
 
 IF (${USE_GICP_CODE})
-	add_definitions(-DUSE_ICP_CODE) 
+	add_definitions(-DUSE_ICP_CODE)
 ENDIF (${USE_GICP_CODE})
 IF (${USE_PCL_ICP})
-  add_definitions(-DUSE_PCL_ICP) 
+  add_definitions(-DUSE_PCL_ICP)
 ENDIF (${USE_PCL_ICP})
 
 
@@ -215,7 +215,7 @@ file(GLOB_RECURSE QT_MOC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS in
 qt5_add_resources(QT_RESOURCES_CPP ${QT_RESOURCES})
 qt5_wrap_ui(QT_FORMS_HPP ${QT_FORMS})
 qt5_wrap_cpp(QT_MOC_HPP ${QT_MOC} OPTIONS -DBOOST_TT_HAS_OPERATOR_HPP_INCLUDED -DBOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION)
-#qt5_wrap_cpp(QT_MOC_HPP ${QT_MOC}) 
+#qt5_wrap_cpp(QT_MOC_HPP ${QT_MOC})
 
 ##############################################################################
 # Sources to Compile
@@ -291,10 +291,10 @@ ENDIF (${USE_GICP})
 #
 #QT4_ADD_RESOURCES(QT_RESOURCES_CPP2 ${QT_RESOURCES2})
 #QT4_WRAP_UI(QT_FORMS_HPP2 ${QT_FORMS2})
-#QT4_WRAP_CPP(QT_MOC_HPP2 ${QT_MOC2})  
+#QT4_WRAP_CPP(QT_MOC_HPP2 ${QT_MOC2})
 #
 #
 #SET(ADDITIONAL_SOURCES2 src/result-bag-viewer.cpp src/bagloader.cpp src/qtros.cpp  src/qt_gui.cpp src/glviewer.cpp src/parameter_server.cpp src/misc.cpp src/ColorOctomapServer.cpp src/scoped_timer.cpp)
 #add_executable(bagviewer ${QT_SOURCES2} ${QT_RESOURCES_CPP2} ${QT_FORMS_HPP2} ${QT_MOC_HPP2} ${ADDITIONAL_SOURCES2})
 #target_link_libraries(bagviewer ${LIBS_LINK})
-# 
+#

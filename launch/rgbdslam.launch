@@ -3,10 +3,13 @@
 
      The openni driver has to be started seperately, e.g. with "roslaunch openni_launch openni.launch" -->
 <launch>
-  <node pkg="rgbdslam" type="rgbdslam" name="rgbdslam" cwd="node" required="true" output="screen"> 
+  <include file="$(find openni_launch)/launch/openni.launch"/>
+  <node pkg="rgbdslam" type="rgbdslam" name="rgbdslam" cwd="node" required="true" output="screen">
     <!-- Input data settings-->
-    <param name="config/topic_image_mono"              value="/camera/rgb/image_color"/> 
-    <param name="config/topic_image_depth"             value="/camera/depth_registered/sw_registered/image_rect_raw"/>
+    <remap from="/camera/depth_registered/sw_registered/image_rect_raw" to="/camera/depth/image_rect_raw"/>
+    <remap from="/camera/rgb/image_color" to="/camera/color/image_raw"/>
+    <remap from="/camera/rgb/camera_info" to="/camera/color/camera_info"/>
+
     <param name="config/topic_points"                  value=""/> <!--if empty, poincloud will be reconstructed from image and depth -->
 
     <!-- These are the default values of some important parameters -->
@@ -22,7 +25,7 @@
     <param name="config/ransac_iterations"             value="100"/>
     <param name="config/cloud_creation_skip_step"      value="2"/><!-- subsample the images' pixels (in both, width and height), when creating the cloud (and therefore reduce memory consumption) -->
 
-    
+
     <param name="config/cloud_display_type"            value="POINTS"/><!-- Show pointclouds as points (as opposed to TRIANGLE_STRIP) -->
     <param name="config/pose_relative_to"              value="largest_loop"/><!-- optimize only a subset of the graph: "largest_loop" = Everything from the earliest matched frame to the current one. Use "first" to optimize the full graph, "inaffected" to optimize only the frames that were matched (not those inbetween for loops) -->
     <param name="config/backend_solver"                value="pcg"/><!-- pcg is faster and good for continuous online optimization, cholmod and csparse are better for offline optimization (without good initial guess)-->
