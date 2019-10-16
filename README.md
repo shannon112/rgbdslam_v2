@@ -1,4 +1,4 @@
-# RGBDSLAM<i>v2</i> 
+# RGBDSLAM<i>v2</i> for d435
 ... is a state-of-the-art SLAM system for RGB-D cameras, e.g., the Microsoft
 Kinect or the Asus Xtion Pro Live.  You can use it to create 3D point clouds or
 OctoMaps. 
